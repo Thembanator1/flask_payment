@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Delivery</title>
+  <style>
+    .header {
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  float: left;
+  max-width: 375px;
+  height: 100px;
+  margin-right: 70%;
+}
+
+.header-content {
+  text-align: right;
+  float: right;
+}
+  </style>
+
+<style>/* ====> Style for showing stage we're on*/
+  .stage {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+
+  .active {
+    background-color: #007bff;
+    color: #fff;
+  }
+  .stage-container{
+      margin-left: 3%;
+      margin-top: 2%;
+  }
+</style>
+
+  <link rel="stylesheet" href="delivery.css">
+</head>
+<body>
+  <div class="header">
+    <img class="logo" src="../img/RunTime Shopping4x.png" alt="Logo">
+    <div class="header-content">
+      <p>Some header content here...</p>
+      <p>Some header content here...</p>
+    </div>
+  </div><!--end of header-->
+
+  <div class="stage-container">
+    <div class="stage" id="delivery">Delivery</div>
+    <div class="stage" id="payment">Payment</div>
+    <div class="stage" id="confirmation">Confirmation</div>
+  </div>
+
+
+  <script>// ====> Script for showing stage we're on
+    var currentStage = "delivery"; 
+
+    var stageElements = document.getElementsByClassName("stage");
+    for (var i = 0; i < stageElements.length; i++) {
+      var stage = stageElements[i];
+      if (stage.id === currentStage) {
+        stage.classList.add("active");
+      }
+    }
+  </script>
+
+
+    <div class = "left-content">
+        <div class="container" id = "deliveryContainer">
+          <div class="card">
+            <div class="card-content">
+              <div class="circle-delivery">
+                <img class="banner-icon" src="../img/checkout/icon-delivery.svg" alt="Delivery">
+              </div>
+              <div>
+                <h2 class="card-title">Delivery</h2>
+                <p class="card-description">Get your order delivered to your doorstep.</p>
+              </div>
+              <a href="#" class="card-button" onclick="hideCollect()">Select Delivery</a>
+            </div>
+          </div>
+
+          <div class="card" id = 'collect'>
+            <div class="card-content">
+              <div class="circle-delivery">
+                <img class="banner-icon" src="../img/checkout/icon-collect.svg" alt="Delivery">
+              </div>
+              <div>
+                <h2 class="card-title">Collect</h2>
+                <p class="card-description">Collect your order from a nearby store or pickup point.</p>
+              </div>
+              <a href="#" class="card-button"  onclick="hideDelivery()">Select Collect</a>
+            </div>
+          </div>
+
+        </div><!--end of the delivery options container-->
+
+        <div class="address-card" id = 'editAdress'>
+          <h2 class="address-card-title">Edit Delivery Address</h2>
+          <form>
+            <div class="form-group">
+              <label for="address-type">Address Type:</label>
+              <select id="address-type">
+                <option value="residential">Residential</option>
+                <option value="business">Business</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="recipient-name">Recipient Name:</label>
+              <input type="text" id="recipient-name">
+            </div>
+            <div class="form-group">
+              <label for="recipient-mobile">Recipient Mobile Number:</label>
+              <input type="text" id="recipient-mobile">
+            </div>
+            <div class="form-group">
+              <label for="street-address">Street Address:</label>
+              <input type="text" id="street-address">
+            </div>
+            <div class="form-group">
+              <label for="complex-building">Complex / Building (Optional):</label>
+              <input type="text" id="complex-building">
+            </div>
+            <div class="form-group">
+              <label for="suburb">Suburb:</label>
+              <input type="text" id="suburb">
+            </div>
+            <div class="form-group">
+              <label for="city-town">City / Town:</label>
+              <input type="text" id="city-town">
+            </div>
+            <div class="form-group">
+              <label for="province">Province:</label>
+              <input type="text" id="province">
+            </div>
+            <div class="form-group">
+              <label for="postal-code">Postal Code:</label>
+              <input type="text" id="postal-code">
+            </div>
+            <div class="form-buttons">
+              <button type="button" class="cancel-button">Cancel</button>
+              <button type="submit" class="save-button" onclick = "hideAddress()">Save Address</button>
+            </div>
+          </form>
+        </div>
+
+<!--
+Pickup Locaations
+-->
+<style>
+
+  .pickup-option {
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .pickup-option h3 {
+    margin-top: 0;
+  }
+  
+  .pickup-option p {
+    margin: 5px 0;
+  }
+  .pickup-option:hover {
+    border-color: #007bff;
+}
+  #gauteng-options {
+    display: none;
+    margin-top: 2%; /* Adjust the top margin as needed */
+    margin-right: auto;
+    margin-bottom: 10px;
+    margin-left: auto;
+    width: 100%; /* Adjust the width as needed */
+    /* Add any other styling properties you want */
+  }
+  #pickup_point{
+    width: 250px;
+  }
+  #continue-button{
+    margin-top: 5px;
+    margin-left: 30%;
+    height: 40px;
+    background: #1c8644;
+    color: #fff;
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.25);
+    text-transform: uppercase;
+    margin-bottom: 35px;
+    display: none;
+}
+  
+  
+      </style>
+<div class="pickups-card" id="pickups">
+  <div style="display: flex; align-items: center;">
+    <h2 style="padding-top: 10px; margin-right: auto;">Runtime Pickup Points</h2>
+    <select id="pickup_point">
+      <option value="" selected disabled>Select Pickup Point</option>
+      <option value="pickup_point_1">Pickup Point 1</option>
+      <option value="pickup_point_2">Pickup Point 2</option>
+      <option value="pickup_point_3">Pickup Point 3</option>
+      <option value="gauteng">Gauteng</option>
+      <!-- Additional pickup points would be listed here -->
+    </select>
+  </div>
+
+    
+    
+    <div class = "sec-container">
+      <section id="gauteng-options" style="display: none;">
+          <div class="pickup-option">
+          <input type="checkbox" name="location-collect"class="pickup-option-checkbox">
+          <h3>WITS Students & Staff</h3>
+          <p>Johannesburg, Gauteng</p>
+          <p>WITS Campus, Shop 14 The Matrix Building</p>
+          <p>Bertha Street & Jorissen Street</p>
+          <p>Johannesburg, Johannesburg, 2018</p>
+          </div>
+          
+          <div class="pickup-option">
+          <input type="checkbox" class="pickup-option-checkbox">
+          <h3>Midrand (N1 Bridge)</h3>
+          <p>Johannesburg, Gauteng</p>
+          <p>Big Bird Petroport, N1 Highway</p>
+          <p>Midrand, Johannesburg, 1685</p>
+          </div>
+          
+          <div class="pickup-option">
+          <input type="checkbox" class="pickup-option-checkbox">
+          <h3>Alberton</h3>
+          <p>Alberton, Gauteng</p>
+          <p>Unit 12</p>
+          <p>41 Heidelberg Avenue</p>
+          <p>New Market, Alberton, 1449</p>
+          </div>
+      </section>
+      </div>
+  </div>
+
+  <div class="pickups-card" id = 'collectDate' style="display: none;">
+    <h2>Estimated collection from:</h2>
+    <div class="pickup-option">
+      <input type="checkbox" name = "coll-date" id="estimated_collection" class="pickup-option-checkbox">
+      <label for="estimated_collection">
+        <span>Monday, 29 May 2023</span>
+        <span class="why-wait">Why the wait?</span><br>
+        <span>Standard Collect</span>
+      </label>
+      <span class="pickup-price">free</span>
+    </div>
+  </div>
+  
+<script>
+  const pickupPointSelect = document.getElementById("pickup_point");
+  const gautengOptions = document.getElementById("gauteng-options");
+  const checkboxes = document.querySelectorAll(".pickup-option-checkbox");
+
+  pickupPointSelect.addEventListener("change", function() {
+    if (pickupPointSelect.value === "gauteng") {
+        gautengOptions.style.display = "block";
+    } else {
+        gautengOptions.style.display = "none";
+    }
+  });
+
+  checkboxes.forEach(function(checkbox) {
+    checkbox.addEventListener("change", function() {
+        if (checkbox.checked) {
+          // Store the selected address
+          const address = checkbox.parentNode.innerText;
+          console.log("Selected address:", address);
+        }
+    });
+  });
+
+
+  document.addEventListener('DOMContentLoaded', function() {
+  // Listener to check which option was ticked
+  var options = document.querySelectorAll('input[name="location-collect"]');
+  options.forEach(function(option) {
+    option.addEventListener('change', function() {
+      var selectedOption = document.querySelector('input[name="location-collect"]:checked');
+      var continueButton = document.getElementById('continue-button');
+      continueButton.style.display = 'block';
+    });
+  });
+});
+document.addEventListener('DOMContentLoaded', function() {
+  // Listener to check which option was ticked
+  var options = document.querySelectorAll('input[name="coll-date"]');
+  options.forEach(function(option) {
+    option.addEventListener('change', function() {
+      var selectedOption = document.querySelector('input[name="coll-date"]:checked');
+      var toPaymentButton = document.getElementById('toPayment');
+      var continueButton = document.getElementById('continue-button');
+      continueButton.style.display = 'none';
+      toPaymentButton.style.display = 'block';
+    });
+  });
+});
+
+</script>
+
+<!--
+=====================Done--------------Pickup Locaations
+-->
+
+        <div class="delivery-options" id = "delivery-options">
+          <h2 class="delivery-options-title">When would you like it delivered?</h2>
+      
+          <div class="delivery-option">
+            <div class="delivery-option-wrapper">
+              <input type="checkbox" id="standard-delivery" name="delivery-option">
+              <div class="delivery-option-details">
+                <h4 class="delivery-option-date">Friday, 12 May 2023</h4>
+                <span class="delivery-option-name">Same Day Delivery</span>
+              </div>
+              <span class="delivery-option-price">R 90</span>
+            </div>
+          </div>
+      
+          <div class="delivery-option">
+            <div class="delivery-option-wrapper">
+              <input type="checkbox" id="standard-delivery" name="delivery-option">
+              <div class="delivery-option-details">
+                <h4 class="delivery-option-date">Saturday, 13 May 2023</h4>
+                <span class="delivery-option-name">Saturday Delivery</span>
+              </div>
+              <span class="delivery-option-price">Free</span>
+            </div>
+          </div>
+      
+          <div class="delivery-option">
+            <div class="delivery-option-wrapper">
+              <input type="checkbox" id="standard-delivery" name="delivery-option">
+              <div class="delivery-option-details">
+                <h4 class="delivery-option-date">Sunday, 14 May 2023</h4>
+                <span class="delivery-option-name">Sunday Delivery</span>
+              </div>
+              <span class="delivery-option-price">Free</span>
+            </div>
+          </div>
+      
+          <div class="delivery-option">
+            <div class="delivery-option-wrapper">
+              <input type="checkbox" id="standard-delivery" name="delivery-option">
+              <div class="delivery-option-details">
+                <h4 class="delivery-option-date">Monday, 15 May 2023</h4>
+                <span class="delivery-option-name">Standard Delivery</span>
+              </div>
+              <span class="delivery-option-price">Free</span>
+            </div>
+          </div>
+      
+          <div class="delivery-option">
+            <div class="delivery-option-wrapper">
+              <input type="checkbox" id="standard-delivery" name="delivery-option">
+              <div class="delivery-option-details">
+                <h4 class="delivery-option-date">Tuesday, 16 May 2023</h4>
+                <span class="delivery-option-name">Standard Delivery</span>
+              </div>
+              <span class="delivery-option-price">Free</span>
+            </div>
+          </div>
+          
+      
+        </div>
+
+      </div> 
+
+
+        
+
+        <div class="order-summary">
+          <h2 class="order-summary-title">Order Summary</h2>
+          <div class="order-item">
+            <span class="item-count">1 Item</span>
+            <span class="item-price">R 519</span>
+          </div>
+          <div class="delivery">
+            <span class="delivery-label">Delivery</span>
+            <span class="delivery-price">Free</span>
+          </div>
+          <div class="total">
+            <span class="total-label">TO PAY:</span>
+            <span class="total-price">R 519</span>
+          </div>
+          
+          <button id="toPayment" onclick="gotoPayment()">
+            Go to Payment
+          </button>
+          <!-- <button id="toPayment" onclick="window.location.href='http://127.0.0.1:5000/'">
+            Go to Payment
+          </button> -->
+          
+          <button id="continue-button" onclick="collectContinue()">
+            Continue
+          </button>
+
+          <button class="checkout-button">
+            <span class="lock-icon">&#128274;</span>
+            Secure Checkout
+          </button>
+         
+        </div>
+
+
+  <script>
+    function hideCollect() {
+      document.getElementById('deliveryContainer').style.display = 'none';
+      document.getElementById('editAdress').style.display = 'block';
+    }
+    function hideDelivery() {
+      document.getElementById('deliveryContainer').style.display = 'none';
+      document.getElementById('pickups').style.display = 'block';
+    }
+    function hideAddress() {
+      document.getElementById('editAdress').style.display = 'none';
+      document.getElementById('delivery-options').style.display = 'block';
+    }
+
+    function gotoPayment() {
+      window.location.href = 'payment.html';
+    }
+    
+    function collectContinue(){
+      document.getElementById('pickups').style.display = 'none';
+      document.getElementById('collectDate').style.display = 'block';
+    }
+
+  document.addEventListener('DOMContentLoaded', function() {
+  var options = document.querySelectorAll('input[name="delivery-option"]');
+  var toPaymentButton = document.getElementById('toPayment');
+
+  options.forEach(function(option) {
+    option.addEventListener('change', function() {
+      if (this.checked) {
+        toPaymentButton.style.display = 'block';
+      } else {
+        toPaymentButton.style.display = 'none';
+      }
+    });
+  });
+});
+
+  </script>
+  <script>
+    // Get the recipient email from localStorage
+    var recipientEmail = localStorage.getItem('RECIPIENT_EMAIL');
+
+// Make an AJAX request to set the recipient email on the server
+fetch('/set_email', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({ recipientEmail: recipientEmail }),
+})
+  .then(response => response.json())
+  .then(data => {
+    // Handle the response from the server if needed
+    console.log(data);
+  })
+  .catch(error => {
+    // Handle any errors that occur during the request
+    console.error('Error:', error);
+  });
+
+
+  </script>
+</body>
+</html>
+
+
+

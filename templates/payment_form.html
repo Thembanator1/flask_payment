@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payment Form</title>
+    <style>
+    /*Where we pay for real, the confidential part*/
+
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+            margin-top: 1%;
+            margin-left: 32%;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"],
+        button[type="submit"],
+        button[type="button"] {
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover,
+        button[type="submit"]:hover,
+        button[type="button"]:hover {
+            background-color: #45a049;
+        }
+
+        body{
+    background-color: #505050b4;
+}
+
+    </style>
+</head>
+<body>
+    <div style="text-align: center; text-size-adjust: 20px;">
+        <h3 style="font-size: 30px; color: #000000;">Payment Portal</h3>
+    </div>
+    
+    <form action="/process_payment" method="post">
+        <label for="card-description">Card Description:</label>
+        <input type="text" id="card-description" name="card-description" placeholder="E.g. My FNB Credit Card" required>
+      
+        <label for="name-on-card">Name on Card:</label>
+        <input type="text" id="name-on-card" name="name-on-card" placeholder = "Xolani Qabaqaba" required>
+      
+        <label for="card-number">Card Number:</label>
+        <input type="text" id="card-number" name="card-number" maxlength="19" placeholder="0000 0000 0000 0000" required>
+      
+        <label for="expiry-month">Expiry Date:</label>
+        <select id="expiry-month" name="expiry-month" required>
+            <option value="">Month</option>
+            <option value="1">January</option>
+            <option value="2">February</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+        </select>
+
+        <select id="expiry-year" name="expiry-year" required>
+            <option value="">Year</option>
+            <option value="2022">2022</option>
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+            <option value="2025">2025</option>
+            <option value="2026">2026</option>
+            <!-- Add more years as needed -->
+        </select>
+      
+      
+        <label for="cvv">CVV:</label>
+        <input type="text" id="cvv" name="cvv" maxlength="4" placeholder="123" required>
+
+        <label for="amount">Amount:</label>
+        <input type="text" id = "amount" name="amount" placeholder = "Amount to pay" required>
+        
+        <!-- <label for="pay-email">Your Email:</label>
+        <input type="text" id="pay-email" name="pay-email" placeholder = "To be Removed!!" required> -->
+      
+        <input type="submit" value="Submit">
+      </form>
+      
+      <script>
+        const cardNumberInput = document.getElementById('card-number');
+
+        cardNumberInput.addEventListener('input', function (e) {
+            let trimmedValue = cardNumberInput.value.replace(/\s+/g, '');
+            let formattedValue = formatCardNumber(trimmedValue);
+            cardNumberInput.value = formattedValue;
+        });
+
+        function formatCardNumber(value) {
+            let formattedValue = value.replace(/[^0-9]/g, '');
+
+            if (formattedValue.length > 0) {
+                formattedValue = formattedValue.match(new RegExp('.{1,4}', 'g')).join(' ');
+            }
+
+            return formattedValue;
+        }
+    </script>
+</body>
+</html>

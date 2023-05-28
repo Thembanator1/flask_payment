@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Confirmation</title>
+    <style>
+        /* CSS to style the table */
+        table {
+            border-collapse: collapse;
+            width: 50%;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+        /* CSS to set the background image */
+        body {
+            background-image: url("https://i.gifer.com/6k2.gif");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-color: #f5f5f5b6;
+        }
+        /* CSS to style the "Runtime Shopping!" text */
+        .runtime-shopping {
+            font-weight: bold;
+            color: red;
+        }
+        /* CSS to center the "Thank you for your order!" heading */
+        .center-heading {
+            font-size:30px;
+        }
+
+        
+        #confirmation-section{
+            margin-left: 2%;
+            padding-left: 1%;
+            width:95%;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+            background-image: url("https://i.gifer.com/6k2.gif");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+    </style>
+    <style>/* ====> Style for showing stage we're on*/
+        .stage {
+          display: inline-block;
+          padding: 10px 20px;
+          background-color: #f5f5f5;
+          border-radius: 5px;
+          margin-right: 10px;
+        }
+    
+        .active {
+          background-color: #007bff;
+          color: #fff;
+        }
+        .stage-container{
+            margin-left: 2%;
+            margin-top: 2%;
+        }
+
+
+        .header {
+            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo {
+            float: left;
+            max-width: 375px;
+            height: 100px;
+            margin-right: 70%;
+        }
+
+        .header-content {
+            text-align: right;
+            float: right;
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="header">
+        <img class="logo" src="{{ url_for('static', filename='img/RunTime Shopping4x.png') }}" alt="Logo" onclick="goToHomepage()">
+        <div class="header-content">
+        <p>Some header content here...</p>
+        <p>Some header content here...</p>
+        </div>
+    </div>
+
+    <div class="stage-container">
+        <div class="stage" id="delivery">Delivery</div>
+        <div class="stage" id="payment">Payment</div>
+        <div class="stage" id="confirmation">Confirmation</div>
+      </div>
+    
+    
+      <script>// ====> Script for showing stage we're on
+        var currentStage = "confirmation"; 
+    
+        var stageElements = document.getElementsByClassName("stage");
+        for (var i = 0; i < stageElements.length; i++) {
+          var stage = stageElements[i];
+          if (stage.id === currentStage) {
+            stage.classList.add("active");
+          }
+        }
+      </script>
+
+    <section id = "confirmation-section">
+    <div style="font-family: Arial, sans-serif; font-size: 18px; line-height: 1.5; color: #1a1a1a;">
+         <h1>Thank you for your order!</h1>
+        <p>Great choice! We've received your order and we're preparing it for shipment.</p>
+        <p>Here's a summary of your order:</p>
+        <!--[Product Tbale must appear here]-->
+        <table id="productTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <p>We'll send you a confirmation email shortly with all the details of your purchase, including your order number, shipping address, and estimated delivery date. (Please approve the online payment on your mobile banking platform)</p>
+        <p>If you have any questions or concerns, please don't hesitate to contact our customer support team. We're always here to help.</p>
+        <p>Thank you for choosing <span class="runtime-shopping">Runtime Shopping!</span></p>
+    </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script>
+    <script>
+        const firebaseConfig = {
+        // Add your Firebase config information here
+            apiKey: "AIzaSyBiQr7aHxdYxk8sCkHxMebkVyBEgXCnknU",
+            authDomain: "online-store-b90ca.firebaseapp.com",
+            databaseURL: "https://online-store-b90ca-default-rtdb.firebaseio.com",
+            projectId: "online-store-b90ca",
+            storageBucket: "online-store-b90ca.appspot.com",
+            messagingSenderId: "160581372978",
+            appId: "1:160581372978:web:b507d7ac5f14c9e4ff002b",
+            measurementId: "G-PH4QNCPP2J"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        const customer_email = localStorage.getItem('user_email');
+        const cartRef = database.ref('Cart');
+
+        cartRef.once("value", (snapshot) => {
+            const cartData = snapshot.val();
+            const productTable = document.getElementById('productTable').getElementsByTagName('tbody')[0];
+
+            for (const productId in cartData) {
+                const cartItem = cartData[productId];
+
+                if (cartItem.customer_email == customer_email) {
+                    const productName = cartItem.product_name;
+                    const description = cartItem.description;
+                    const productPrice = cartItem.product_price;
+
+                    const productId = cartItem.product_id;
+                    // localStorage.setItem('productId', productId);
+                    // const storedproductId = localStorage.getItem('productId');
+
+                    // Create a new row
+                    const newRow = productTable.insertRow();
+
+                    // Create cells for name, description, and price
+                    const nameCell = newRow.insertCell();
+                    const descriptionCell = newRow.insertCell();
+                    const priceCell = newRow.insertCell();
+
+                    // Set the content of the cells
+                    nameCell.textContent = productName;
+                    descriptionCell.textContent = description;
+                    priceCell.textContent = productPrice;
+                }
+            }
+        });
+
+        function goToHomepage() {
+            window.location.href = "../homepage.html";
+        }
+    </script>
+</body>
+</html>

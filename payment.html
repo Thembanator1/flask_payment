@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payments</title>
+    <style>
+        .header {
+            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo {
+            float: left;
+            max-width: 375px;
+            height: 100px;
+            margin-right: 70%;
+        }
+
+        .header-content {
+            text-align: right;
+            float: right;
+        }
+        body{
+            background-color: #f5f5f5b6;
+        }
+        .svg-container {
+        display: flex;
+        }
+
+        
+
+    </style>
+    <style>/* ====> Style for showing stage we're on*/
+        .stage {
+          display: inline-block;
+          padding: 10px 20px;
+          background-color: #f5f5f5;
+          border-radius: 5px;
+          margin-right: 10px;
+        }
+    
+        .active {
+          background-color: #007bff;
+          color: #fff;
+        }
+        .stage-container{
+            margin-left: 7%;
+            margin-top: 2%;
+        }
+    </style>
+    <link rel="stylesheet" href="payment.css">
+    <link rel="stylesheet" href="delivery.css">
+    <script 
+    src="https://integratepayments.transactiongateway.com/token/Collect.js" 
+    data-tokenization-key="75gRbc-e6mxC2-eNz38z-kxB2e6" 
+    data-variant="inline">
+    </script>
+</head>
+<body>
+    <div class="header">
+        <img class="logo" src="../img/RunTime Shopping4x.png" alt="Logo">
+        <div class="header-content">
+          <p>Some header content here...</p>
+          <p>Some header content here...</p>
+        </div>
+    </div>
+
+    <div class="stage-container">
+        <div class="stage" id="delivery">Delivery</div>
+        <div class="stage" id="payment">Payment</div>
+        <div class="stage" id="confirmation">Confirmation</div>
+    </div>
+
+
+
+  <script>// ====> Script for showing stage we're on
+    var currentStage = "payment"; 
+
+    var stageElements = document.getElementsByClassName("stage");
+    for (var i = 0; i < stageElements.length; i++) {
+      var stage = stageElements[i];
+      if (stage.id === currentStage) {
+        stage.classList.add("active");
+      }
+    }
+  </script>
+
+    <div class="left-content">
+        <div class="payment-options" id = "payment-options" style = "padding-bottom: 1px;">
+            <h2 style = "padding-top: 10px;">How would you like to pay?</h2>
+            <div class = "payment-option" style="display: flex; flex-direction: row;">
+                <input type="radio" id="credit-debit-card" name="payment-method" value="credit-debit-card">
+                <div style = "display: flex; flex-direction: column; margin-left: 5px;">
+                    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+        
+                    
+                    <h3 class = "credit-debit-card">Credit & Debit Card</h3>
+                    <div>
+                        <iconify-icon icon="logos:mastercard" style="font-size: 20px; margin-right: 5px;"></iconify-icon>
+                        <iconify-icon icon="logos:visa" style="font-size: 20px; margin-right: 5px;"></iconify-icon>
+                        <iconify-icon icon="logos:amex" style="font-size: 20px;"></iconify-icon>
+                    </div>
+                </div>
+            </div>
+            
+            <div class = "payment-option" style="display: flex; flex-direction: row;">
+                <input type="radio" id="cash-on-delivery" name="payment-method" value="credit-debit-card">
+                <div style = "display: flex; flex-direction: column; margin-left: 5px;">
+                    <h3 class = "credit-debit-card">Cash on Delivery</h3>
+                </div>   
+            </div>
+
+        </div><!--End of Payment Options-->
+        <form id = "payInfo">
+            <label for="card-description">Card Description:</label>
+            <input type="text" id="card-description" name="card-description" placeholder="E.g. My FNB Credit Card" required>
+          
+            <label for="name-on-card">Name on Card:</label>
+            <input type="text" id="name-on-card" name="name-on-card" required>
+          
+            <label for="card-number">Card Number:</label>
+            <input type="text" id="card-number" name="card-number" required>
+          
+            <label for="expiry-month">Expiry Date:</label>
+            <select id="expiry-month" name="expiry-month" required>
+              <option value="">Month</option>
+              <!-- Add options for months (1-12) -->
+            </select>
+            <select id="expiry-year" name="expiry-year" required>
+              <option value="">Year</option>
+              <!-- Add options for years -->
+            </select>
+          
+            <label for="straight-budget">Straight / Budget:</label>
+            <select id="straight-budget" name="straight-budget" required>
+              <option value="straight">Straight</option>
+              <option value="budget">Budget</option>
+            </select>
+          
+            <label for="cvv">CVV:</label>
+            <input type="text" id="cvv" name="cvv" required>
+          
+            <button type="submit">Cancel</button>
+            <button type="button" onclick="Pay()">Pay</button>
+          </form>
+    </div>
+
+    
+    <div class="order-summary">
+        <h2 class="order-summary-title">Order Summary</h2>
+        <div class="order-item">
+          <span class="item-count">1 Item</span>
+          <span class="item-price">R 519</span>
+        </div>
+        <div class="delivery">
+          <span class="delivery-label">Delivery</span>
+          <span class="delivery-price">Free</span>
+        </div>
+        <div class="total">
+          <span class="total-label">TO PAY:</span>
+          <span class="total-price">R 519</span>
+        </div>
+        
+        <!-- <button id="card-pay" onclick="gotoPay()">
+            PAY WITH CARD
+          </button> -->
+          <button id="card-pay" onclick="window.location.href='http://127.0.0.1:5000/'">
+            Go to Payment
+          </button>
+        <button id="toConfirmation" onclick="gotoConfirmation()">
+          Proceed
+        </button>
+
+        <button class="checkout-button">
+          <span class="lock-icon">&#128274;</span>
+          Secure Checkout
+        </button>
+       
+      </div>
+    
+      <script>
+
+        document.addEventListener('DOMContentLoaded', function() { //LISTENER TO CHECK WHICH OPTION WAS TICKED
+        var options = document.querySelectorAll('input[name="payment-method"]');
+        options.forEach(function(option) {
+            option.addEventListener('change', function() {
+                var selectedOption = document.querySelector('input[name="payment-method"]:checked');
+                var cardPayButton = document.getElementById('card-pay');
+                var toConfirmationButton = document.getElementById('toConfirmation');
+
+                if (selectedOption && selectedOption.id === 'credit-debit-card') {
+                    cardPayButton.style.display = 'block';
+                    toConfirmationButton.style.display = 'none';
+                } else {
+                    cardPayButton.style.display = 'none';
+                    toConfirmationButton.style.display = 'block';
+                }
+            });
+        });
+        });
+
+        function gotoConfirmation() {
+            window.location.href = 'confirmation.html';
+        }
+        
+        function gotoPay() {
+            document.getElementById('payment-options').style.display = 'none';
+            document.getElementById('payInfo').style.display = 'block';
+        }
+
+        function Pay(){
+            gotoConfirmation();
+        }
+        
+        </script>
+    
+</body>
+</html>

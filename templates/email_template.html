@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payment Receipt</title>
+    <style>
+        /* CSS styles for the receipt */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        
+        .receipt {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        }
+        
+        .receipt-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .receipt-details {
+            margin-bottom: 20px;
+        }
+        
+        .receipt-details p {
+            margin: 5px 0;
+        }
+        
+        .receipt-footer {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="receipt">
+        <div class="receipt-header">
+            <h1>Payment Receipt</h1>
+        </div>
+        <div class="receipt-details">
+            <p><strong>Customer Name:</strong> {{ receipt.name_on_card }}</p>
+            <p><strong>Email:</strong> {{ receipt.customer_email }}</p>
+            <p><strong>Order Number:</strong> {{ receipt.order_number }}</p>
+            <p><strong>Payment Date:</strong> {{ receipt.payment_date }}</p>
+            <p><strong>Payment Method:</strong> Online Payment</p>
+            <p><strong>Amount Paid:</strong> R{{ receipt.amount }}</p>
+        </div>
+        <div class="receipt-footer">
+            <p>Thank you for your purchase!</p>
+        </div>
+    </div>
+</body>
+</html>
